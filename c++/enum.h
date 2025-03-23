@@ -19,4 +19,4 @@ enum class LogoutMediumType {
 enum class LogoutSynAsyncType {
     SYNC,    // 同步输出
     ASYNC    // 异步输出 
-}
+};
