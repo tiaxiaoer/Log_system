@@ -43,8 +43,8 @@ public:
     /** Returns true if the message should be printed in the given timestamp, otherwise returns false.
         If this method returns false, the message will not be printed.
         The timestamp is in seconds granularity. */
-    bool shouldPrintMessage(int timestamp, string message) {
-    
+    bool shouldPrintMessage(int timestamp, std::string message) {
+        
     }
 
 };

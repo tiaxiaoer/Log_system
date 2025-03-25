@@ -1,0 +1,2 @@
+
+#define FORMAT_COMPONENT_NUM 9

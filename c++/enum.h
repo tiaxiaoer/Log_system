@@ -20,3 +20,16 @@ enum class LogoutSynAsyncType {
     SYNC,    // 同步输出
     ASYNC    // 异步输出 
 };
+
+// 日志占位符
+enum class LogPlaceholder {
+    DATE,           //日期
+    LEVEL,          //日志级别
+    FILENAME,       //文件名
+    LINE,           //行号
+    THREAD_ID,      //线程ID
+    MESSAGE,        //消息主体
+    NEWLINE,        //换行符
+    TAB,            //制表符
+    LOGGER_NAME,    //日志器名称
+};
