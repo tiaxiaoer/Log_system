@@ -17,15 +17,20 @@ private:
     LogoutMediumType medium;                // 输出到什么地方
     LogFormatter formatter;                 // 日志格式
 
+    std::string logger_name;                // 日志器名称
+    int logger_id;                          // 日志器ID
+
 public:
     /** Initialize your data structure here. */
     Logger() {
 
     }
-    Logger(LogoutSynAsyncType sync_or_async, LogoutMediumType medium, LogFormatter formatter) {
+    Logger(LogoutSynAsyncType sync_or_async, LogoutMediumType medium, LogFormatter formatter, std::string logger_name, int logger_id) {
         this->sync_or_async = sync_or_async;
         this->medium = medium;
         this->formatter = formatter;
+        this->logger_name = logger_name;
+        this->logger_id = logger_id;
     }
 
     void setSyncOrAsync(LogoutSynAsyncType sync_or_async) {
@@ -47,4 +52,11 @@ public:
         
     }
 
+    int getLoggerId() {
+        return this->logger_id; 
+    }
+
+    std::string getLoggerName() {
+        return this->logger_name;
+    }
 };

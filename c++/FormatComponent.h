@@ -16,47 +16,72 @@ public:
     virtual void format(std::ostream &out, const LogInfo &logInfo) = 0;
 };
 
-class DateFormatComponent : public FormatComponent
+class DateYearFormatComponent : public FormatComponent
 {
-
+    void format(std::ostream &out, const LogInfo &logInfo) override;
 };
+
+class DateMonthFormatComponent : public FormatComponent
+{
+    void format(std::ostream &out, const LogInfo &logInfo) override;
+};
+
+class DateDayFormatComponent : public FormatComponent{
+    void format(std::ostream &out, const LogInfo &logInfo) override;
+}
+
+class DateHourFormatComponent : public FormatComponent{
+    void format(std::ostream &out, const LogInfo &logInfo) override; 
+}
+
+class DateMinuteFormatComponent : public FormatComponent{
+    void format(std::ostream &out, const LogInfo &logInfo) override;
+}
+
+class DateSecondFormatComponent : public FormatComponent{
+    void format(std::ostream &out, const LogInfo &logInfo) override;
+}
 
 class LevelFormatComponent : public FormatComponent
 {
-    
+    void format(std::ostream &out, const LogInfo &logInfo) override;
 };
 
 class FilenameFormatComponent : public FormatComponent
 {
-    
+    void format(std::ostream &out, const LogInfo &logInfo) override;
 };
 
 class LineFormatComponent : public FormatComponent
 {
-    
+    void format(std::ostream &out, const LogInfo &logInfo) override;
 };
 
 class ThreadIdFormatComponent : public FormatComponent
 {
-
+    void format(std::ostream &out, const LogInfo &logInfo) override;
 };
 
 class ChangeLineFormatComponent : public FormatComponent
 {
-
+    void format(std::ostream &out, const LogInfo &logInfo) override;
 };
 
 class MessageBodyFormatComponent : public FormatComponent
 {
-    
+    void format(std::ostream &out, const LogInfo &logInfo) override;
 };
 
 class TabFormatComponent : public FormatComponent
 {
-    
+    void format(std::ostream &out, const LogInfo &logInfo) override;
 };
 
 class LoggerNameFormatComponent : public FormatComponent
 {
-
+    void format(std::ostream &out, const LogInfo &logInfo) override;
 };
+
+class ModFormatComponent : public FormatComponent{
+    void format(std::ostream &out, const LogInfo &logInfo) override; 
+}

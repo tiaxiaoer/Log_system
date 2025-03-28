@@ -12,7 +12,7 @@ class FormatConvert{
         将字符串转换对应占位符
      */
     static std::string toString(PlaceholderType placeholder);
-    static std::LogPlaceholder toPlaceholder(std::string placeholder);
+    static std::LogPlaceholder toPlaceholder(char placeholder);
 };
 
 
@@ -60,7 +60,7 @@ public:
     //传入消息主题，返回格式化后的日志消息
     std::string formatMessage(LogInfo logInfo);
     // 获取占位符列表
-    FotmatCompnent::ptr getFormatComponentPtr(LogPlaceholder logPlace);  
+    function<void> getFormatFunc(LogPlaceholder placeholder);  
     ~LogFormatter();
 
 }

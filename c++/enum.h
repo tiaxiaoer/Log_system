@@ -5,7 +5,8 @@ enum class LogLevel {
     INFO,    // 常规运行状态
     WARNING, // 潜在问题
     ERROR,   // 错误事件
-    FATAL    // 严重错误
+    FATAL,   // 严重错误
+    UNKNOWN  // 未知级别
 };
 
 enum class LogoutMediumType {
@@ -23,7 +24,13 @@ enum class LogoutSynAsyncType {
 
 // 日志占位符
 enum class LogPlaceholder {
-    DATE,           //日期
+    DATE_YEAR,           //日期年份
+    DATE_MONTH,          //日期月份
+    DATE_DAY,            //日期日期
+    DATE_HOUR,           //日期小时
+    DATE_MINUTE,         //日期分钟
+    DATE_SECOND,         //日期秒钟
+    
     LEVEL,          //日志级别
     FILENAME,       //文件名
     LINE,           //行号

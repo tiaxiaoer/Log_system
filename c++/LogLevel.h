@@ -10,5 +10,4 @@ public:
     ~Loglevel();
     static std::string toString(LogLevel level);
     static LogLevel fromString(std::string level);
-
 };
