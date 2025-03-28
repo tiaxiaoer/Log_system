@@ -39,4 +39,8 @@ enum class LogPlaceholder {
     NEWLINE,        //换行符
     TAB,            //制表符
     LOGGER_NAME,    //日志器名称
+
+    ORIGINAL_CHAR,   //原始字符
+
+    WRONG_PLACEHOLDER  //错误的占位符
 };

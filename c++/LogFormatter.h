@@ -37,11 +37,15 @@ class LogFormatter {
     */
 private:
     std::string format;         // 格式化字符串
-    std::string message;        // 消息主体
     std::vector<LogPlaceholder> placeholderList;    // 占位符列表
     std::vector<FormatComponent> componentList;     // 格式化组件列表
 
-    vector< function<void> > formatFunc;  
+    std::string originalChar;   // 原始字符串，用于存储原始的非占位字符
+    int site=0;                 // 用于现在处于原始字符串的哪个位置，即为下一次要输出的原始字符记录原始字符串的位置
+
+    std::string out_str;        // 输出字符串
+
+    vector< function<void(std::ostream &, const LogInfo &)> > formatFunc;  
     // 格式化函数，存放的是用于将格式化占位符转换为格式化字符串的函数，
     //即LogFormatComponent的各子类中的format方法
 
@@ -49,6 +53,8 @@ private:
 
     void setComponentList();    // 设置格式化组件列表
     void setFormatFunc();       // 设置格式化函数列表
+    void clear();               // 清空上次输入message导致的变化
+    
     
 
 public:
@@ -57,10 +63,11 @@ public:
     LogFormatter(std::string format);       //没有检查format是否为空，需要在调用处检查
     //设置格式化字符串，如果设置成功，返回true，否则返回false
     //void setFormat(std::string format);
-    //传入消息主题，返回格式化后的日志消息
-    std::string formatMessage(LogInfo logInfo);
+    //传入消息主题，返回格式化后的日志消息，输入到out中
+    std::string formatInfo(std::ostream out, LogInfo logInfo);
     // 获取占位符列表
     function<void> getFormatFunc(LogPlaceholder placeholder);  
     ~LogFormatter();
+    bool getFormatFlag();       // 获取formatFlag的值
 
 }

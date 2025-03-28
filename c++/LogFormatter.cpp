@@ -5,23 +5,30 @@
 
 
 
-/*
+
 void LogFormatter::setComponentList(){
-    DateFormatComponent dateComponent;
-    LevelFormatComponent levelComponent;
-    FilenameFormatComponent filenameComponent;
-    LineFormatComponent lineComponent;
-    ThreadIdFormatComponent threadIdComponent;
-    ChangeLineFormatComponent changeLineComponent;
-    MessageFormatComponent messageComponent;
-    TabFormatComponent tabComponent;
-    LoggerNameFormatComponent loggerNameComponent;
-    this->componentList.push_back(dateComponent());
-    this->componentList.push_back(dateComponent());
+    /*设置格式化组件列表*/
+
+    this->componentList.push_back(DateYearFormatComponent());
+    this->componentList.push_back(DateMonthFormatComponent());
+    this->componentList.push_back(DateDayFormatComponent());
+    this->componentList.push_back(DateHourFormatComponent());
+    this->componentList.push_back(DateMinuteFormatComponent());
+    this->componentList.push_back(DateSecondFormatComponent());
+
     this->componentList.push_back(LevelFormatComponent());
+    this->componentList.push_back(FilenameFormatComponent());
+    this->componentList.push_back(LineFormatComponent());
+    this->componentList.push_back(ThreadIdFormatComponent());
+    this->componentList.push_back(ChangeLineFormatComponent());
+
+    this->componentList.push_back(MessageBodyFormatComponent());
+    this->componentList.push_back(TabFormatComponent());
+    this->componentList.push_back(LoggerNameFormatComponent());
+    this->componentList.push_back(ModFormatComponent());
+
 
 }
-*/
 
 /* 将字符标识符转换为日志占位符枚举
  * @brief 实现格式字符到枚举值的映射转换
@@ -52,31 +59,19 @@ static std::LogPlaceholder FormatConvert::toPlaceholder(char placeholder)
 
         // 特殊符号
         case 'n': return LogPlaceholder::NEWLINE;     // 换行符
-        case 't': return LogPlaceholder::TAB;          // 制表符
+        case 't': return LogPlaceholder::TAB;         // 制表符
         case 'g': return LogPlaceholder::LOGGER_NAME; // 记录器名称
+        default:  return LogPlaceholder::WRONG_PLACEHOLDER; //返回不合法的占位符
     }
 }
 
 
 void LogFormatter::setFormatFunc(){
     /*设置格式化占位符对应的格式化函数指针*/
-    this->formatFunc.push_back(DateYearFormatComponent::format);
-    this->formatFunc.push_back(DateMonthFormatComponent::format);
-    this->formatFunc.push_back(DateDayFormatComponent::format);
-    this->formatFunc.push_back(DateHourFormatComponent::format);
-
-    this->formatFunc.push_back(DateMinuteFormatComponent::format);
-    this->formatFunc.push_back(DateSecondFormatComponent::format);
-    this->formatFunc.push_back(LevelFormatComponent::format);
-    this->formatFunc.push_back(FilenameFormatComponent::format);
-
-    this->formatFunc.push_back(LineFormatComponent::format);
-    this->formatFunc.push_back(ThreadIdFormatComponent::format);
-    this->formatFunc.push_back(ChangeLineFormatComponent::format);
-    this->formatFunc.push_back(MessageFormatComponent::format);
-
-    this->formatFunc.push_back(TabFormatComponent::format);
-    this->formatFunc.push_back(LoggerNameFormatComponent::format);
+    for(int i=0; i<this->componentList.size(); i++){
+        this->formatFunc.push_back(std::bind(&FormatComponent::format, &this->componentList[i], std::placeholders::_1, std::placeholders::_2)); 
+    }
+    this->formatFunc.push_back([](std::ostream &out, const LogInfo &logInfo){out<<this->originChar;});
 }
 
 /* 获取与指定日志占位符对应的格式化函数指针
@@ -93,22 +88,26 @@ LogFormatter::LogFormatter(){
 
 }
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
-LogFormatter::LogFormatter(std::string format){
+LogFormatter::LogFormatter(std::string format): LogFormatter()
+{
     for(int i=0; i<)
     this->format = format;
+    //特殊情况处理
     if(format.size()==1){
         if(format[0]=='%'){
-            this->formatFlag = false;
+            this->formatFlag = false;       //格式字符串不合法
             return;
         }
         if(format[0]!='%'){
             //说明是消息主体
-            this->formatFlag = true;
-            this->placeholderList.push_back(getFormatComponentPtr(LogPlaceholder::MESSAGE));
+            this->originalChar.push_back(format[0]);
+            this->placeholderList.push_back(LogPlaceholder::ORIGINAL_CHAR);
             return;
         }
     }
     for(int i=0, j=1; j<=format.size(); ){
+        //逻辑复杂，需要多考虑
+        if(i>=format.size() || j>=format.size())    break;
         if(format[i]=='%' && i<format.size()){
             j=i+1;
             if(j>=format.size()){
@@ -116,16 +115,20 @@ LogFormatter::LogFormatter(std::string format){
                 return;
             }
             else{
-                this->placeholderList.push_back(FormatConvert::toPlaceholder(format[j]));
+                if(FormatConvert::toPlaceholder(format[j])==LogPlaceholder::WRONG_PLACEHOLDER){
+                    this->formatFlag = false;
+                    return; 
+                }
+                else{
+                    this->placeholderList.push_back(FormatConvert::toPlaceholder(format[j]));
+                }
             }
-            
+            i=j+1;
         }
-
-        /*未完成*/
-        while(j<format.size() && format[j]!='%'){
-            if(format[i]=='%'){
-                this->placeholderList.push_back();
-            }
+        else{
+            j=i+1;
+            this->originalChar.push_back(format[i]);
+            i++;
         }
     }
 }
@@ -136,11 +139,21 @@ void LogFormatter::setFormat(std::string format){
 }
 */
 
-std::string LogFormatter::formatMessage(LogInfo logInfo){
-
+std::string LogFormatter::formatInfo(std::ostream out, LogInfo logInfo){
+    //需要处理format不合法的情况，需要在调用处处理
+    this->clear();
+    for(int i=0; i<this->placeholderList.size(); i++){
+        
+    }
 }
 
 LogFormatter::~LogFormatter(){
 
+}
+
+void LogFormatter::clear(){
+    this->out_str.clear();
+    this->originalChar.clear();
+    this->site=0;
 }
   
