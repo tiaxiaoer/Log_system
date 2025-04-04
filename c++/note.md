@@ -1,3 +1,10 @@
 FormatComponent中的format方法实现过于复杂，需要进行拆分和优化。
 可以通过createFormatComponent方法来创建一个新的FormatComponent实例，
 应该参考https://blog.csdn.net/Wzs040810/article/details/141298955?spm=1001.2014.3001.5502重新实现，可优化
+
+LogFormatter.h实现笔记，坑点：
+基本实现LogFormatter.h，实现了Format函数，实现了clear，实现了读取格式化字符串，但是没对
+非法格式化字符串进行处理，后续可以加入异常机制，并且输出非单位字符串的进行的函数调用过多，应该可以去除中途步骤，直接输出，可优化，且每个Formatter对象都要重新初始化一个componentList列表，重新初始化一个formatFunc列表，性能过低，需要优化
+
+2025-4-4 22:40
+使用marscode生成了LogFormatter.h中的Format函数的单元测试，但头文件gtest找不到，需要进行配置
