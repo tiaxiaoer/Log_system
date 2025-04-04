@@ -8,3 +8,6 @@ LogFormatter.h实现笔记，坑点：
 
 2025-4-4 22:40
 使用marscode生成了LogFormatter.h中的Format函数的单元测试，但头文件gtest找不到，需要进行配置
+安装了vcpkg（专属于C++的包管理工具）
+
+    解决了git clone连接不到github.com的问题，问题为dns解析被污染，连接不到正确的ip地址，从https://www.ipaddress.com/website/github.com/网址中得到了正确的githubip地址，添加到windows的host文件中
