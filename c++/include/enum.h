@@ -1,3 +1,4 @@
+#pragma once
 
 enum class LogLevel {
     TRACE,   // 最详细跟踪
